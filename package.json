@@ -1,6 +1,6 @@
 {
   "name": "htjson",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "description": "Hyper Text JSON",
   "main": "index.js",
   "scripts": {
