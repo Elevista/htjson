@@ -78,7 +78,16 @@ let json = {
   }
 }
 console.log(htjson.compile(json))
-// console.log(htjson.compile({p: ['abcd', {br: '/'}, 'efgh']}))
+// console.log(htjson.compile({
+//   article: [
+//     {h1: 'london'},
+//     {p: 'London is the capital city of England. It is the most populous city in the  United Kingdom, with a metropolitan area of over 13 million inhabitants.'},
+//     {p: ['abcd', {br: '/'}, 'efgh']},
+//     {p: 'Standing on the River Thames, London has been a major settlement for two millennia, its history going back to its founding by the Romans, who named it Londinium.'}
+//   ]
+// }))
+// console.log(htjson.compile({footer: 'Copyright &copy; W3Schools.com'}))
+// console.log(htjson.compile({html: {body: 'aa'}}))
 
 // console.log(htjson.compile({
 //   article: [

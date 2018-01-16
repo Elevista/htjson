@@ -31,7 +31,7 @@ function normalizeChildren (node) {
 function normalize (obj, $tag = '') {
   let $inline = judgeInline(obj, $tag) && !!inlineTags[$tag]
   if (!(obj instanceof Object)) obj = {$tag, $attrs: [], $text: obj}
-  if (obj instanceof Array) obj = {$tag, $attrs: [], $text: '', $: obj}
+  if (obj instanceof Array) obj = {$tag, $attrs: [], $: obj}
   if ($tag === '$text') return {$tag, $text: obj.$text}
   let ret = {$tag, $attrs: [], $children: [], $inline}
   for (let key of Object.keys(obj)) {
@@ -41,10 +41,10 @@ function normalize (obj, $tag = '') {
         if (key.length === 1) {
           ret.$children.push(...obj.$.map(x => normalizeChildren(x)))
         }
-        if ($tag !== '$text' && key === '$text') ret.$children.push({$tag: '$text', $text: value})
+        if (key === '$text') ret.$children.push({$tag: '$text', $text: value})
         break
       case '_':
-        ret.$attrs.push(` ${key.slice(1)}="${value}"`)
+        ret.$attrs.push([key.slice(1), value])
         break
       default:
         ret.$children.push(normalize(value, key))
@@ -54,18 +54,21 @@ function normalize (obj, $tag = '') {
 }
 
 function compile (obj) {
-  let {$tag: tag, $attrs: attrs, $text: text = '', $inline: inline, $children: children} = obj
-  if (tag === '$text') return text
-  if (inline) return `<${tag}${attrs.join('')}>${text || children.map(x => compile(x)).join('')}</${tag}>`
-  let block = []
-  if (tag) block.push(`<${tag}${attrs.join('')}>`)
-  block.push(...children.map(x => compile(x)))
-  if (tag) block.push(`</${tag}>`)
-  return block
+  let {$tag: tag, $attrs: attrs = [], $text: text, $inline: inline, $children: children} = obj
+  if (!tag) return compile(children[0])
+  if (tag === '$text') return [text]
+  let attr = attrs.length ? ' ' + attrs.map(([k, v]) => `${k}="${v}"`) : ''
+  if (inline) return [`<${tag}${attr}>${text || children.map(x => compile(x)).join('')}</${tag}>`]
+  return [
+    `<${tag}${attr}>`,
+    ...children.map(x => compile(x)),
+    `</${tag}>`
+  ]
 }
 
 function indenetTree (arr, depth = 0) {
-  let indent = _indent.repeat(Math.max(depth, 0))
+  let indent = _indent.repeat(depth)
+  if (!(arr instanceof Array)) return arr
   return arr.map(x => x instanceof Array ? indenetTree(x, depth + 1) : indent + x).join('\n')
 }
 
@@ -73,7 +76,7 @@ const htjson = {
   compile (obj) {
     let normal = normalize(obj)
     let htmlTree = compile(normal)
-    return indenetTree(htmlTree, -1)
+    return indenetTree(htmlTree)
   }
 }
 Object.defineProperties(htjson, {
