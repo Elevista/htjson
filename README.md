@@ -102,8 +102,8 @@ module.exports = {
 }
 ```
 
-# Options
-## Indent
+## Options
+### Indent
 ```js
 const htjson = require('htjson')
 htjson.indent = '\t' // default 2 spaces
