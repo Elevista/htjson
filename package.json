@@ -1,0 +1,30 @@
+{
+  "name": "htjson",
+  "version": "0.0.1",
+  "description": "Hyper Text JSON",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint index.js test",
+    "lint:fix": "eslint --fix index.js test"
+  },
+  "devDependencies": {
+    "eslint": "^4.6.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jasmine": "^2.8.4",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1"
+  },
+  "author": "Elevista",
+  "license": "MIT",
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Elevista/htjson.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Elevista/htjson/issues"
+  },
+  "homepage": "https://github.com/Elevista/htjson#readme"
+}
