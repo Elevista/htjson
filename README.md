@@ -25,8 +25,10 @@ let html = htjson.compile(json)
 equals
 ```js
 module.exports = {
-  h1:'title',
-  span:'content'
+  div: {
+    h1: 'title',
+    span: 'content'
+  }
 }
 ```
 ### Tag with attribute
